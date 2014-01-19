@@ -46,25 +46,19 @@ require_relative 'models.rb'
 # -------- CONTROLLER ------------------------------ #
 
 class ToDoController
-
+  attr_reader :my_list
   def run
-    my_list = List.load_from_file("todo.csv")
-    # my_list.load_file("todo.csv")
+    @my_list = List.load_from_file("todo.csv")
 
     if ARGV.any?
 
       case ARGV[0]
       when "list"
-        View.show_list(my_list.display_list)
+        show_list
       when "add"
-        my_list.add_task(Task.from_argv(View.input_task))
-        View.add_complete
-        my_list.write_to_csv_file
+        add_to_list
       when "delete"
-        task_num = View.input_task_num
-        deleted_task = my_list.delete_task(task_num)
-        my_list.write_to_csv_file
-        View.delete_complete(deleted_task)
+        delete_from_list
       when "complete"
         completed_task = my_list.mark_completed(View.input_task_num)
         my_list.write_to_csv_file
@@ -73,6 +67,22 @@ class ToDoController
     end
   end
 
+  def show_list
+    View.show_list(my_list.display_list)
+  end
+
+  def add_to_list
+    my_list.add_task(Task.from_argv(View.input_task))
+    View.add_complete
+    my_list.write_to_csv_file
+  end
+
+  def delete_from_list
+    task_num = View.input_task_num
+    deleted_task = my_list.delete_task(task_num)
+    my_list.write_to_csv_file
+    View.delete_complete(deleted_task)
+  end
 end
 
 

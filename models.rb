@@ -17,11 +17,9 @@ class List
   def write_to_csv_file
     CSV.open("todo.csv", "wb", write_headers: true, headers: ["content","status"]) do |csv|
       @tasks.each do |task|
-        # debugger
         csv << task.to_a
       end
     end
-    # return nil
   end
 
   def display_list
