@@ -60,9 +60,7 @@ class ToDoController
       when "delete"
         delete_from_list
       when "complete"
-        completed_task = my_list.mark_completed(View.input_task_num)
-        my_list.write_to_csv_file
-        View.completed_complete(completed_task)
+        complete_item
       end
     end
   end
@@ -82,6 +80,12 @@ class ToDoController
     deleted_task = my_list.delete_task(task_num)
     my_list.write_to_csv_file
     View.delete_complete(deleted_task)
+  end
+
+  def complete_item
+    completed_task = my_list.mark_completed(View.input_task_num)
+    my_list.write_to_csv_file
+    View.completed_complete(completed_task)
   end
 end
 
